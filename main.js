@@ -33,60 +33,67 @@ Ext.onReady(function () {
             title: 'West Region is collapsible',
             region:'west',
             xtype: 'panel',
-            width: 200,
+            width: 200
         },{
             title: 'Center Region',
             region: 'center',
+            id: 'center',
             xtype: 'panel',
-            layout: 'fit',
             collapsible: false,
-            html: '<div id="main"></div>'
+            html: '<div id="main"></div>',
+            listeners: {
+                resize: function () {
+                    var graph = Highcharts.chart('main',{
+                        chart: {
+                            type: 'column'
+                        },
+                        height: '100%',
+                        title: {
+                            text: 'Динамика военной и гражданской промышленности'
+                        },
+                        xAxis: {
+                            categories: categories
+                        },
+                        legend:{
+                            enabled:false
+                        },
+                        yAxis:[
+                            {
+                                title: false,
+                                reversed: false,
+                                labels: {
+                                    formatter: function () {
+                                        return Math.abs(this.value) + '%';
+                                    }
+                                },
+
+
+                            }
+                        ],
+
+
+
+                        tooltip: {
+                            formatter: function(){
+                                return '<b>'+this.point.series.userOptions.label+'</b><br/>'+this.series.name+':'+Math.abs(this.point.y)+'%<br/>Сумма:'+Math.abs(this.point.stackTotal)+'%';
+                            },
+                        },
+                        plotOptions: {
+                            column: {
+                                stacking: 'normal',
+                            }
+                        },
+                        series: series
+                    });
+                    graph.redraw();
+                }
+            }
+
         }],
         renderTo: Ext.getBody()
     });
 
-    Highcharts.chart('main',{
-        chart: {
-            type: 'column'
-        },
-        width: '100%',
-        title: {
-            text: 'Динамика военной и гражданской промышленности'
-        },
-        xAxis: {
-            categories: categories
-        },
-        legend:{
-            enabled:false
-        },
-        yAxis:[
-            {
-                title: false,
-                reversed: false,
-                labels: {
-                    formatter: function () {
-                        return Math.abs(this.value) + '%';
-                    }
-                },
 
-
-            }
-        ],
-
-
-
-        tooltip: {
-           formatter: function(){
-               return '<b>'+this.point.series.userOptions.label+'</b><br/>'+this.series.name+':'+Math.abs(this.point.y)+'%<br/>Сумма:'+Math.abs(this.point.stackTotal)+'%';
-           },
-        },
-        plotOptions: {
-            column: {
-                stacking: 'normal',
-            }
-        },
-        series: series
-    });
 
 
 
