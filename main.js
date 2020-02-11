@@ -70,9 +70,6 @@ Ext.onReady(function () {
 
                             }
                         ],
-
-
-
                         tooltip: {
                             formatter: function(){
                                 return '<b>'+this.point.series.userOptions.label+'</b><br/>'+this.series.name+':'+Math.abs(this.point.y)+'%<br/>Сумма:'+Math.abs(this.point.stackTotal)+'%';
