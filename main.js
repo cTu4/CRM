@@ -1,120 +1,206 @@
+
 Ext.onReady(function () {
-    var categories = [2011,2012,2013,2014];
-    var series = [{
-        label: 'Гражданка',
-        name: 'Наука',
-        data: [-30, -10, -20, -12]
-    }, {
-        label: 'Гражданка',
-        name: 'Остальное',
-        data: [-10, -10, -15, -8]
-    }, {
-        label: 'Военка',
-        name: 'Наука',
-        data: [50, 50, 45, 50]
-    },
-        {
-            label: 'Военка',
-            name: 'Остальное',
-            data: [10, 30, 20, 30]
-        }];
-
-    Ext.create('Ext.panel.Panel', {
-        width: Ext.getBody().getWidth(),
-        height: 700,
-        title: 'Border Layout',
+    Ext.define('Users', {
+        extend: 'Ext.data.Model',
+        fields: ['id','name','surname','patr','phone','id_user'],
+    });
+    var store = Ext.create('Ext.data.Store', {
+        model: 'Users',
+        proxy: {
+            type: 'ajax',
+            method: 'POST',
+            url : 'Database/Getdata.php',
+        },
+        autoload: true
+    });
+    Ext.create({
+        xtype: 'panel',
         layout: 'border',
-
+        height: window.innerHeight-10,
+        width: '100%',
+        renderTo: Ext.getElementById('main'),
         defaults: {
             collapsible: true,
             split: true,
+            bodyPadding: 15
         },
-        items: [{
-            title: 'West Region is collapsible',
-            region:'west',
-            xtype: 'panel',
-            width: 200
-        },{
-            title: 'Center Region',
-            region: 'center',
-            id: 'center',
-            xtype: 'panel',
-            collapsible: false,
-            html: '<div id="main"></div>',
-            listeners: {
-                resize: function () {
-                    var graph = Highcharts.chart('main',{
-                        chart: {
-                            type: 'column'
-                        },
-                        height: '100%',
-                        title: {
-                            text: 'Динамика военной и гражданской промышленности'
-                        },
-                        xAxis: {
-                            categories: categories
-                        },
-                        legend:{
-                            enabled:false
-                        },
-                        yAxis:[
-                            {
-                                title: false,
-                                reversed: false,
-                                labels: {
-                                    formatter: function () {
-                                        return Math.abs(this.value) + '%';
-                                    }
+        items: [
+            {
+                xtype: 'panel',
+                layout: {
+                  align: 'stretch',
+                  type: 'vbox'
+                },
+                title: 'Добавить запись',
+                minWidth: 350,
+                region: 'west',
+                width: 500,
+                items: [
+                    {
+                        xtype: 'textfield',
+                        name: 'surname',
+                        id: 'surname',
+                        fieldLabel: 'Фамилия:'
+                    },
+                    {
+                        xtype: 'textfield',
+                        name: 'name',
+                        id: 'name',
+                        fieldLabel: 'Имя:'
+                    },
+                    {
+                        xtype: 'textfield',
+                        name: 'patr',
+                        id: 'patr',
+                        fieldLabel: 'Отчество:'
+                    },
+                    {
+                        xtype: 'numberfield',
+                        minValue: 0,
+                        keyNavEnabled: false,
+                        mouseWheelEnabled: false,
+                        hideTrigger: true,
+                        name: 'phone',
+                        id: 'phone',
+                        fieldLabel: ' Телефон:'
+                    },
+                    {
+                        xtype: 'button',
+                        text: 'Добавить',
+                        handler(){
+
+                            Ext.Ajax.request({
+                                method: 'POST',
+                                url: 'Database/AddUser.php',
+                                params: {
+                                        name: Ext.getCmp('name').getValue(),
+                                        surname: Ext.getCmp('surname').getValue(),
+                                        phone: Ext.getCmp('phone').getValue(),
+                                        patr: Ext.getCmp('patr').getValue(),
+                                    },
+                                success(resp){
+                                    console.log(resp.responseText);
+                                    store.load();
+                                    Ext.getCmp('name').setValue('');
+                                    Ext.getCmp('surname').setValue('');
+                                    Ext.getCmp('phone').setValue('');
+                                    Ext.getCmp('patr').setValue('');
+
                                 },
+                                failure(resp){
+                                    console.log(resp);
+                                }
+                            });
+                        }
+                    }
+                ]
+            },
+            {
+                xtype:'panel',
+                title: 'Телефонная книга',
+                region: 'center',
+                items: [
+                    {
+                        xtype: 'gridpanel',
+                        store: store,
+                        selModel: 'cellmodel',
+                        plugins: {
+                            ptype: 'cellediting',
+                            clicksToEdit: 2
+                        },
+                        buttons:[
+                            {
+                                xtype:'button',
+                                text: 'Сохранить',
+                                width: '100%',
+                                handler(){
+                                    var data = store.getModifiedRecords();
+                                    var arr = [];
+                                    data.forEach(function (item) {
+                                        arr.push({id: item.id,id_user:item.data.id_user,keys: Object.keys(item.modified), mod_data: item.data});
+                                    });
 
+                                    console.log(data);
 
+                                    console.log(arr);
+                                    Ext.Ajax.request({
+                                        method: 'POST',
+                                        url: 'Database/EditUser.php',
+                                        params:  {data: JSON.stringify(arr)},
+                                        success(resp){
+                                            store.load();
+                                        },
+                                        failure(resp){
+                                            console.log(resp)
+                                        }
+                                    });
+                                }
                             }
                         ],
-                        tooltip: {
-                            formatter: function(){
-                                return '<b>'+this.point.series.userOptions.label+'</b><br/>'+this.series.name+':'+Math.abs(this.point.y)+'%<br/>Сумма:'+Math.abs(this.point.stackTotal)+'%';
-                            },
-                        },
-                        plotOptions: {
-                            column: {
-                                stacking: 'normal',
+                        columns: [
+                            {text: 'Фамилия', dataIndex: 'surname',flex: 1, editor:{
+                                    field: {
+                                        xtype: 'textfield',
+                                        allowBlank: false
+                                    }
+                                }},
+                            {text: 'Имя', dataIndex: 'name',flex: 1, editor:{
+                                    field: {
+                                        xtype: 'textfield',
+                                        allowBlank: false
+                                    }
+                                }},
+                            {text: 'Отчество', dataIndex: 'patr',flex: 1, editor:{
+                                    field: {
+                                        xtype: 'textfield',
+                                        allowBlank: false
+                                    }
+                                }},
+                            {text: 'Телефон', dataIndex: 'phone',flex: 1, editor:{
+                                    field: {
+                                        xtype: 'textfield',
+                                        allowBlank: false
+                                    }
+                                }},
+                            {
+                                xtype:'actioncolumn',
+                                text: 'Действия',
+                                width:100,
+                                items: [{
+                                    iconCls: 'x-fa fa-trash icon-padding',
+                                    handler(grid, rowIndex, colIndex){
+                                        var id = grid.getStore().getData().items[rowIndex].id;
+                                        var id_user = grid.getStore().getData().items[rowIndex].id_user;
+
+                                        Ext.Ajax.request({
+                                            method: 'POST',
+                                            url: 'Database/DelUser.php',
+                                            params: {
+                                                id: id,
+                                                id_user: id_user
+                                            },
+                                            success(resp) {
+                                                console.log(resp.responseText);
+                                                store.load();
+                                            },
+                                            failure(resp) {
+
+                                            }
+                                        });
+
+                                    }
+                                }]
                             }
-                        },
-                        series: series
-                    });
-                    graph.redraw();
+                        ]
+                    }
+                ],
+                listeners: {
+                    beforeRender(){
+                        store.load();
+                        console.log(store.getData())
+                    }
                 }
             }
-
-        }],
-        renderTo: Ext.getBody()
+        ]
     });
-
-
-
-
-
-
-
-    /*
-    Ext.create('Ext.panel.Panel', {
-        width: 500,
-        height: 300,
-        margin: 50,
-        title: 'Border Layout',
-        items: {
-            xtype: 'button',
-            text: 'Vk auth',
-            margin: 50,
-            width: 100,
-            handler: function () {
-                var key = 'a9Mqx2Xf1KJ4K6RKTmP9';
-                var id ='7279137';
-
-
-            }
-
-        },
-        renderTo: Ext.getBody()
-    });*/
 });

@@ -2,9 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="913b7acd-38a1-4397-aa78-6301e2587791" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ext-all-debug.js" beforeDir="false" afterPath="$PROJECT_DIR$/ext-all-debug.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ext-all.js" beforeDir="false" afterPath="$PROJECT_DIR$/ext-all.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/index.php" beforeDir="false" afterPath="$PROJECT_DIR$/index.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/main.js" afterDir="false" />
     </list>
-    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -20,31 +24,28 @@
       <list>
         <option value="HTML File" />
         <option value="JavaScript File" />
+        <option value="CSS File" />
       </list>
     </option>
+    <option name="SCHEME" value="Project" />
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="ProjectId" id="1WICCGr02Bh5nygPHewmdCEjyUI" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showExcludedFiles" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
   <component name="PropertiesComponent">
     <property name="DefaultHtmlFileTemplate" value="HTML File" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-  </component>
-  <component name="RunDashboard">
-    <option name="ruleStates">
-      <list>
-        <RuleState>
-          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
-        </RuleState>
-        <RuleState>
-          <option name="name" value="StatusDashboardGroupingRule" />
-        </RuleState>
-      </list>
-    </option>
+    <property name="list.type.of.created.stylesheet" value="CSS" />
+    <property name="settings.editor.selected.configurable" value="settings.github" />
   </component>
   <component name="SvnConfiguration">
     <configuration />
@@ -61,7 +62,15 @@
       <workItem from="1578836837450" duration="1675000" />
       <workItem from="1578839012341" duration="242000" />
       <workItem from="1581314068952" duration="9879000" />
-      <workItem from="1581425672179" duration="3937000" />
+      <workItem from="1581425672179" duration="4024000" />
+      <workItem from="1581429723037" duration="362000" />
+      <workItem from="1584384285058" duration="132000" />
+      <workItem from="1584690275654" duration="3837000" />
+      <workItem from="1585060394758" duration="844000" />
+      <workItem from="1585394113234" duration="5551000" />
+      <workItem from="1585402229128" duration="7609000" />
+      <workItem from="1585415388947" duration="8068000" />
+      <workItem from="1585483891044" duration="9576000" />
     </task>
     <servers />
   </component>
@@ -80,5 +89,11 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="884" y="517" width="399" height="149" key="NewPhpFileDialog" timestamp="1585417926194">
+      <screen x="67" y="27" width="1853" height="1053" />
+    </state>
+    <state x="884" y="517" width="399" height="149" key="NewPhpFileDialog/67.27.1853.1053/1920.0.1920.1080@67.27.1853.1053" timestamp="1585417926194" />
   </component>
 </project>
