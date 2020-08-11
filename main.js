@@ -31,7 +31,7 @@ Ext.onReady(function () {
                   align: 'stretch',
                   type: 'vbox'
                 },
-                title: 'Добавить запись',
+                title: 'Добавить ',
                 minWidth: 350,
                 region: 'west',
                 width: 500,
